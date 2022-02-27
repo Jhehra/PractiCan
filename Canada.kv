@@ -1,0 +1,576 @@
+#:kivy 1.0.9
+<Course>:
+    cols: 1
+    rows:2
+    #Defines how many rows and columns the grid containing the widgets has
+    ScrollView:
+    #Gives a scrollable view to a widget larger than available screen size
+        do_scroll_x: False
+        do_scroll_y: True
+        Label:
+        #Text containing course contents loaded from file
+            size_hint_y: None
+            height: self.texture_size[1]
+            text_size: self.width, None
+            padding: 10, 10
+            text: root.content
+            font_name:"MuseoSans"
+            font_size:20
+            color: 0,0,0,1
+    Button:
+    #Button to finish course and take quiz on course contents
+        text:'Click here to be quizzed on the subject'
+        on_press: root.show_quiz()
+        size_hint: 1, 0.1
+        border: 30,30,30,30
+        font_name:"MuseoSans"
+        font_size:20
+        background_normal: 'button.png'
+        background_down: 'buttonDown.png'
+
+<Help>:
+    cols: 1
+    rows:2
+    ScrollView:
+        do_scroll_x: False
+        do_scroll_y: True
+        Label:
+            size_hint_y: None
+            height: self.texture_size[1]
+            text_size: self.width, None
+            padding: 10, 10
+            text: open(root.content, 'r', encoding="UTF8").read()
+            font_name:"MuseoSans"
+            font_size:20
+            color: 0,0,0,1
+    Button:
+        text:'Click here to return to the Help Menu'
+        on_press: root.show_menu()
+        size_hint: 1, 0.1
+        border: 30,30,30,30
+        background_normal: 'button.png'
+        background_down: 'buttonDown.png'
+        font_name:"MuseoSans"
+        font_size:20
+
+
+
+
+
+<Quiz>:
+    Label:
+        text: root.questions[0]
+        size_hint: 1, 0.2
+        pos_hint: {'x': 0, 'y': 0.8}
+        text_size: self.width, None
+        font_name:"MuseoSans"
+        halign: 'center'
+        font_size:30
+        color: 0,0,0,1
+        #The question being answered
+    Button:
+        text: root.questions[1]
+        id: root.questions[1]
+        on_release:
+            if root.is_correct(root.questions[1], root.questions[5]): self.background_color = [0, 1, 0, 1]
+            #Checks if the answer is right
+            else: self.background_color = [1, 0, 0, 1]
+        size_hint: 0.5, 0.1
+        pos_hint: {'x': 0.25, 'y': 0.5}
+        border: 30,30,30,30
+        font_name:"MuseoSans"
+        font_size:15
+        text_size : self.width, None
+        halign: 'center'
+        background_normal: 'button.png'
+        background_down: 'buttonDown.png'
+        #The first answer
+    Button:
+        text: root.questions[2]
+        on_release:
+            if root.is_correct(root.questions[2], root.questions[5]): self.background_color = [0, 1, 0, 1]
+            #Checks if the answer is right
+            else: self.background_color = [1, 0, 0, 1]
+        size_hint: 0.5, 0.1
+        pos_hint: {'x': 0.25, 'y': 0.375}
+        border: 30,30,30,30
+        font_name:"MuseoSans"
+        font_size:15
+        text_size : self.width, None
+        halign: 'center'
+        background_normal: 'button.png'
+        background_down: 'buttonDown.png'
+        #The second answer
+    Button:
+        text: root.questions[3]
+        on_release:
+            if root.is_correct(root.questions[3], root.questions[5]): self.background_color = [0, 1, 0, 1]
+            #Checks if the answer is right
+            else: self.background_color = [1, 0, 0, 1]
+        size_hint: 0.5, 0.1
+        pos_hint: {'x': 0.25, 'y': 0.25}
+        border: 30,30,30,30
+        font_name:"MuseoSans"
+        font_size:15
+        text_size : self.width, None
+        halign: 'center'
+        background_normal: 'button.png'
+        background_down: 'buttonDown.png'
+        #The third answer
+    Button:
+        text: root.questions[4]
+        on_release:
+            if root.is_correct(root.questions[4], root.questions[5]): self.background_color = [0, 1, 0, 1]
+            #Checks if the answer is right
+            else: self.background_color = [1, 0, 0, 1]
+        size_hint: 0.5, 0.1
+        pos_hint: {'x': 0.25, 'y': 0.125}
+        background_normal: 'button.png'
+        background_down: 'buttonDown.png'
+        border: 30,30,30,30
+        font_name:"MuseoSans"
+        font_size:15
+        text_size : self.width, None
+        halign: 'center'
+        #The fourth answer
+
+<Signup>:
+#Signup screen
+    TextInput:
+        hint_text: 'Username'
+        id: user_name
+        multiline: False
+        size_hint: (0.5, 0.1)
+        pos_hint: {'x':0.25, 'y':0.7}
+        font_name:"MuseoSans"
+        font_size:20
+        #Where username is entered
+    TextInput:
+        hint_text: 'Password'
+        id: pass_word
+        multiline: False
+        size_hint: (.5, .1)
+        pos_hint: {'x':0.25, 'y':0.5}
+        font_name:"MuseoSans"
+        font_size:20
+        #Where password is entered
+    Button:
+        text:'Quit'
+        on_press: root.quit()
+        pos_hint: {'x': 0.35, 'y': 0.15}
+        size_hint: 0.3, 0.1
+        border: 30,30,30,30
+        background_normal: 'button.png'
+        background_down: 'buttonDown.png'
+        font_name:"MuseoSans"
+        font_size:20
+        #Button to create account with username and password inputs
+    Button:
+        text:"Sign up"
+        on_release: root.make_account()
+        pos_hint: {'x': 0.35, 'y': 0.3}
+        size_hint: 0.3, 0.1
+        border: 30,30,30,30
+        background_normal: 'button.png'
+        background_down: 'buttonDown.png'
+        font_name:"MuseoSans"
+        font_size:20
+        #Button to create account with username and password inputs
+
+<Login>:
+#Login screen
+    TextInput:
+        hint_text: 'Username'
+        id: user_name
+        multiline: False
+        size_hint: (0.5, 0.1)
+        pos_hint: {'x':0.25, 'y':0.7}
+        font_name:"MuseoSans"
+        font_size:20
+        #Where username is entered
+    TextInput:
+        hint_text: 'Password'
+        id: pass_word
+        multiline: False
+        size_hint: (.5, .1)
+        pos_hint: {'x':0.25, 'y':0.5}
+        font_name:"MuseoSans"
+        font_size:20
+        #Where password is entered
+    Button:
+        text:'Quit'
+        on_press: root.quit()
+        pos_hint: {'x': 0.35, 'y': 0.15}
+        size_hint: 0.3, 0.1
+        border: 30,30,30,30
+        background_normal: 'button.png'
+        background_down: 'buttonDown.png'
+        font_name:"MuseoSans"
+        font_size:20
+        #Button to create account with username and password inputs
+    Button:
+        text:"Log in"
+        on_release: root.access_account()
+        pos_hint: {'x': 0.35, 'y': 0.3}
+        size_hint: 0.3, 0.1
+        border: 30,30,30,30
+        background_normal: 'button.png'
+        background_down: 'buttonDown.png'
+        font_name:"MuseoSans"
+        font_size:20
+        #Button to create account with username and password inputs
+
+<CourseManager>:
+    Button:
+        text:"Economy"
+        on_release: root.show_course('Economy')
+        pos_hint: {'x': 0.15, 'y': 0.26}
+        size_hint: 0.3, 0.1
+        border: 30,30,30,30
+        background_normal: 'button.png'
+        background_down: 'buttonDown.png'
+        font_name:"MuseoSans"
+        font_size:20
+
+    Button:
+        text:"Geography"
+        on_release: root.show_course('Geography')
+        pos_hint: {'x': 0.55, 'y': 0.26}
+        size_hint: 0.3, 0.1
+        border: 30,30,30,30
+        background_normal: 'button.png'
+        background_down: 'buttonDown.png'
+        font_name:"MuseoSans"
+        font_size:20
+
+    Button:
+        text:"Government"
+        on_release: root.show_course('Government')
+        pos_hint: {'x': 0.15, 'y': 0.53}
+        size_hint: 0.3, 0.1
+        border: 30,30,30,30
+        background_normal: 'button.png'
+        background_down: 'buttonDown.png'
+        font_name:"MuseoSans"
+        font_size:20
+
+    Button:
+        text:"History"
+        on_release: root.show_course('History')
+        pos_hint: {'x': 0.55, 'y': 0.53}
+        size_hint: 0.3, 0.1
+        border: 30,30,30,30
+        background_normal: 'button.png'
+        background_down: 'buttonDown.png'
+        font_name:"MuseoSans"
+        font_size:20
+
+    Button:
+        text:"Laws"
+        on_release: root.show_course('Laws')
+        pos_hint: {'x': 0.15, 'y': 0.8}
+        size_hint: 0.3, 0.1
+        border: 30,30,30,30
+        background_normal: 'button.png'
+        background_down: 'buttonDown.png'
+        font_name:"MuseoSans"
+        font_size:20
+
+    Button:
+        text:"Symbols"
+        on_release: root.show_course('Symbols')
+        pos_hint: {'x': 0.55, 'y': 0.8}
+        size_hint: 0.3, 0.1
+        border: 30,30,30,30
+        background_normal: 'button.png'
+        background_down: 'buttonDown.png'
+        font_name:"MuseoSans"
+        font_size:20
+
+    Button:
+        text:"Back"
+        on_release: root.show_menu('1')
+        size_hint: 0.3, 0.1
+        pos_hint: {'x': 0.35, 'y': 0.1}
+        border: 30,30,30,30
+        background_normal: 'button.png'
+        background_down: 'buttonDown.png'
+        font_name:"MuseoSans"
+        font_size:20
+
+    Label:
+        text: "Logged in as: " + app.account if app.account else "Not logged in"
+        size_hint: (0.5, 0.1)
+        pos_hint: {'x':0, 'y':0.9}
+        font_name:"MuseoSans"
+        font_size:20
+        color: 0,0,0,1
+        text_size:(self.width, None)
+
+<HelpManager>:
+    Button:
+        text:"Courses"
+        on_release: root.show_help('courses')
+        pos_hint: {'x': 0.51, 'y': 0.8}
+        size_hint: 0.3, 0.1
+        border: 30,30,30,30
+        background_normal: 'button.png'
+        background_down: 'buttonDown.png'
+        font_name:"MuseoSans"
+        font_size:20
+    Button:
+        text:"Training"
+        on_release: root.show_help('training')
+        size_hint: 0.3, 0.1
+        pos_hint: {'x': 0.18, 'y': 0.5}
+        border: 30,30,30,30
+        background_normal: 'button.png'
+        background_down: 'buttonDown.png'
+        font_name:"MuseoSans"
+        font_size:20
+    Button:
+        text:"Help"
+        on_release: root.show_help('help')
+        size_hint: 0.3, 0.1
+        pos_hint: {'x': 0.51, 'y': 0.5}
+        border: 30,30,30,30
+        background_normal: 'button.png'
+        background_down: 'buttonDown.png'
+        font_name:"MuseoSans"
+        font_size:20
+    Button:
+        text:"Accounts"
+        on_release: root.show_help('accounts')
+        size_hint: 0.3, 0.1
+        pos_hint: {'x': 0.18, 'y': 0.2}
+        border: 30,30,30,30
+        background_normal: 'button.png'
+        background_down: 'buttonDown.png'
+        font_name:"MuseoSans"
+        font_size:20
+    Button:
+        text:"Details"
+        on_release: root.show_help('details')
+        size_hint: 0.3, 0.1
+        pos_hint: {'x': 0.51, 'y': 0.2}
+        border: 30,30,30,30
+        background_normal: 'button.png'
+        background_down: 'buttonDown.png'
+        font_name:"MuseoSans"
+        font_size:20
+
+    Button:
+        text:"Back"
+        on_release: root.show_menu('1')
+        size_hint: 0.3, 0.1
+        pos_hint: {'x': 0.18, 'y': 0.8}
+        border: 30,30,30,30
+        background_normal: 'button.png'
+        background_down: 'buttonDown.png'
+        font_name:"MuseoSans"
+        font_size:20
+
+    Label:
+        text: "Logged in as: " + app.account if app.account else "Not logged in"
+        size_hint: (0.5, 0.1)
+        pos_hint: {'x':0, 'y':0.9}
+        font_name:"MuseoSans"
+        font_size:20
+        color: 0,0,0,1
+        text_size:(self.width, None)
+
+<AccountManager>:
+    Button:
+        text:"Login"
+        on_release: root.login_screen()
+        size_hint: (0.5, 0.1)
+        pos_hint: {'x':0.25, 'y':0.2}
+        background_normal: 'button.png'
+        background_down: 'buttonDown.png'
+        border: 30,30,30,30
+        font_name:"MuseoSans"
+        font_size:20
+    Button:
+        text:"Sign up"
+        on_release: root.signup_screen()
+        size_hint: (0.5, 0.1)
+        pos_hint:{'x':0.25, 'y':0.4}
+        background_normal: 'button.png'
+        background_down: 'buttonDown.png'
+        border: 30,30,30,30
+        font_name:"MuseoSans"
+        font_size:20
+    Button:
+        text:"Log out"
+        on_release: root.logout()
+        size_hint: (0.5, 0.1)
+        pos_hint:{'x':0.25, 'y':0.6}
+        background_normal: 'button.png'
+        background_down: 'buttonDown.png'
+        border: 30,30,30,30
+        font_name:"MuseoSans"
+        font_size:20
+    Button:
+        text:"Return to menu"
+        on_release: root.show_menu(1)
+        size_hint:(0.5, 0.1)
+        pos_hint:{'x':0.25, 'y':0.8}
+        background_normal: 'button.png'
+        background_down: 'buttonDown.png'
+        border: 30,30,30,30
+        font_name:"MuseoSans"
+        font_size:20
+    Label:
+        text: "Logged in as: " + app.account if app.account else "Not logged in"
+        size_hint: (0.5, 0.1)
+        pos_hint: {'x':0, 'y':0.9}
+        font_name:"MuseoSans"
+        font_size:20
+        color: 0,0,0,1
+        text_size:(self.width, None)
+
+<DetailsManager>:
+    Label:
+        text:"Economy Score\n" + str(root.get_score(0))
+        pos_hint: {'x': 0.12, 'y': 0.26}
+        size_hint: 0.3, 0.1
+        font_name:"MuseoSans"
+        font_size:20
+        color: 0,0,0,1
+
+    Label:
+        text:"Geography Score\n" + str(root.get_score(1))
+        pos_hint: {'x': 0.66, 'y': 0.26}
+        size_hint: 0.3, 0.1
+        font_name:"MuseoSans"
+        font_size:20
+        color: 0,0,0,1
+
+    Label:
+        text:"Government Score\n" + str(root.get_score(2))
+        pos_hint: {'x': 0.15, 'y': 0.56}
+        size_hint: 0.3, 0.1
+        font_name:"MuseoSans"
+        font_size:20
+        color: 0,0,0,1
+
+    Label:
+        text:"History Score\n" + str(root.get_score(3))
+        pos_hint: {'x': 0.63, 'y': 0.56}
+        size_hint: 0.3, 0.1
+        font_name:"MuseoSans"
+        font_size:20
+        color: 0,0,0,1
+
+    Label:
+        text:"Laws Score\n" + str(root.get_score(4))
+        pos_hint: {'x': 0.07, 'y': 0.80}
+        size_hint: 0.3, 0.1
+        font_name:"MuseoSans"
+        font_size:20
+        color: 0,0,0,1
+
+    Label:
+        text:"Symbols Score\n" + str(root.get_score(5))
+        pos_hint: {'x': 0.65, 'y': 0.80}
+        size_hint: 0.3, 0.1
+        font_name:"MuseoSans"
+        font_size:20
+        color: 0,0,0,1
+
+    Button:
+        text:"Back"
+        on_release: root.show_menu('1')
+        size_hint: 0.3, 0.1
+        pos_hint: {'x': 0.35, 'y': 0.1}
+        border: 30,30,30,30
+        background_normal: 'button.png'
+        background_down: 'buttonDown.png'
+        font_name:"MuseoSans"
+        font_size:20
+
+    Label:
+        text: "Logged in as: " + app.account if app.account else "Not logged in"
+        size_hint: (0.5, 0.1)
+        pos_hint: {'x':0, 'y':0.9}
+        font_name:"MuseoSans"
+        font_size:20
+        color: 0,0,0,1
+        text_size:(self.width, None)
+
+
+<Menu>:
+    Image:
+        source: 'logo.png'
+        size_hint: (0.5, 0.5)
+        pos_hint: {'x':0.25, 'y':0.6}
+    Button:
+        text:"Courses"
+        on_release: root.show_option('CourseManager')
+        pos_hint: {'x': 0.25, 'y': 0.55}
+        size_hint: 0.5, 0.1
+        background_normal: 'button.png'
+        background_down: 'buttonDown.png'
+        border: 30,30,30,30
+        font_name:"MuseoSans"
+        font_size:20
+
+    Button:
+        text:"Questions"
+        on_release: root.show_option('QuizManager')
+        size_hint: 0.5, 0.1
+        pos_hint: {'x': 0.25, 'y': 0.43}
+        background_normal: 'button.png'
+        background_down: 'buttonDown.png'
+        border: 30,30,30,30
+        font_name:"MuseoSans"
+        font_size:20
+    Button:
+        text:"Help"
+        on_release: root.show_option('HelpManager')
+        size_hint: 0.5, 0.1
+        pos_hint: {'x': 0.25, 'y': 0.31}
+        background_normal: 'button.png'
+        background_down: 'buttonDown.png'
+        border: 30,30,30,30
+        font_name:"MuseoSans"
+        font_size:20
+
+    Button:
+        text:"Accounts"
+        on_release: root.show_option('AccountManager')
+        size_hint: 0.5, 0.1
+        pos_hint: {'x':0.25, 'y':0.19}
+        background_normal: 'button.png'
+        background_down: 'buttonDown.png'
+        border: 30,30,30,30
+        font_name:"MuseoSans"
+        font_size:20
+
+    Button:
+        text:"Details"
+        on_release: root.show_option('DetailsManager')
+        size_hint: 0.5, 0.1
+        pos_hint: {'x':0.25, 'y':0.07}
+        background_normal: 'button.png'
+        background_down: 'buttonDown.png'
+        border: 30,30,30,30
+        font_name:"MuseoSans"
+        font_size:20
+
+    Label:
+        text: "Logged in as: " + app.account if app.account else "Not logged in"
+        size_hint: (0.5, 0.1)
+        pos_hint: {'x':0, 'y':0.9}
+        font_name:"MuseoSans"
+        font_size:20
+        color: 0,0,0,1
+        text_size:(self.width, None)
+
+
+
+
+
+
+
+
